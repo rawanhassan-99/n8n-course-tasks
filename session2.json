@@ -1,0 +1,1007 @@
+{
+  "name": "session2",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "API Test",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "name"
+            },
+            {
+              "fieldLabel": "email",
+              "fieldType": "email"
+            },
+            {
+              "fieldLabel": "Password",
+              "fieldType": "password"
+            },
+            {
+              "fieldLabel": "rePassword",
+              "fieldType": "password"
+            },
+            {
+              "fieldLabel": "phone",
+              "fieldType": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.6,
+      "position": [
+        560,
+        -208
+      ],
+      "id": "b93e8880-9fef-48e0-bcb8-78fbc23d37b6",
+      "name": "On form submission",
+      "webhookId": "c5108620-8c82-4e75-bcb4-4adc346c54db",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://ecommerce.routemisr.com/api/v1/auth/signup",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "name",
+              "value": "={{ $json.name }}"
+            },
+            {
+              "name": "email",
+              "value": "={{ $json.email }}"
+            },
+            {
+              "name": "password",
+              "value": "={{ $json.Password }}"
+            },
+            {
+              "name": "rePassword",
+              "value": "={{ $json.rePassword }}"
+            },
+            {
+              "name": "phone",
+              "value": "={{ $json.phone }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        784,
+        -208
+      ],
+      "id": "699f50b2-e57e-4f78-a7e7-a2c8a90073bc",
+      "name": "HTTP Request",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1wRUt9pmyDNPDUJLvQPqTl-WVS5CPdYJL3TgCIxVHBjo",
+          "mode": "list",
+          "cachedResultName": "n8n course conditions",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wRUt9pmyDNPDUJLvQPqTl-WVS5CPdYJL3TgCIxVHBjo/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wRUt9pmyDNPDUJLvQPqTl-WVS5CPdYJL3TgCIxVHBjo/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        528,
+        176
+      ],
+      "id": "0283afe7-0e6a-4847-b514-08d4819e6c4e",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "xe74FHpZ0iNXOXGo",
+          "name": "Google Sheets account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 4
+          },
+          "conditions": [
+            {
+              "id": "36d1fce5-4678-4a61-9dd5-ed0c29e1a320",
+              "leftValue": "={{ $json[' Price (EGP)'] }}",
+              "rightValue": 100,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.4,
+      "position": [
+        736,
+        224
+      ],
+      "id": "051c342e-3fcd-4473-ba8d-3a2fb5c9cc97",
+      "name": "If",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1wRUt9pmyDNPDUJLvQPqTl-WVS5CPdYJL3TgCIxVHBjo",
+          "mode": "list",
+          "cachedResultName": "n8n course conditions",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wRUt9pmyDNPDUJLvQPqTl-WVS5CPdYJL3TgCIxVHBjo/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1771764613,
+          "mode": "list",
+          "cachedResultName": "Sheet2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wRUt9pmyDNPDUJLvQPqTl-WVS5CPdYJL3TgCIxVHBjo/edit#gid=1771764613"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Product Name": "={{ $json['Product Name'] }}",
+            " Price (EGP)": "={{ $json[' Price (EGP)'] }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Product Name",
+              "displayName": "Product Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": " Price (EGP)",
+              "displayName": " Price (EGP)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        960,
+        128
+      ],
+      "id": "485eff8a-f7aa-4415-90bd-485eb459dbbf",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "xe74FHpZ0iNXOXGo",
+          "name": "Google Sheets account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1wRUt9pmyDNPDUJLvQPqTl-WVS5CPdYJL3TgCIxVHBjo",
+          "mode": "list",
+          "cachedResultName": "n8n course conditions",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wRUt9pmyDNPDUJLvQPqTl-WVS5CPdYJL3TgCIxVHBjo/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 622194271,
+          "mode": "list",
+          "cachedResultName": "Sheet3",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wRUt9pmyDNPDUJLvQPqTl-WVS5CPdYJL3TgCIxVHBjo/edit#gid=622194271"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Product Name": "={{ $json['Product Name'] }}",
+            " Price (EGP)": "={{ $json[' Price (EGP)'] }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Product Name",
+              "displayName": "Product Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": " Price (EGP)",
+              "displayName": " Price (EGP)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        960,
+        320
+      ],
+      "id": "7b063326-2383-48bd-bc44-fc0e1baf0d5c",
+      "name": "Append row in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "xe74FHpZ0iNXOXGo",
+          "name": "Google Sheets account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        640,
+        624
+      ],
+      "id": "daec8a6d-b83c-4b22-84f2-020bb08f074e",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "jsCode": "const input = $input.first().json.chatInput\n\n \n\nconst parts = input.trim().split(/\\s+/);\n\nconst price = Number(parts.pop());\n\nconst product = parts.join(\" \");\n\n \n\nreturn [\n\n  {\n\n    json: {\n\n      product: product,\n\n      price: price\n\n    }\n\n  }\n\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        864,
+        624
+      ],
+      "id": "4e53609e-9f20-4d31-a019-342a3a5a2d56",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1wRUt9pmyDNPDUJLvQPqTl-WVS5CPdYJL3TgCIxVHBjo",
+          "mode": "list",
+          "cachedResultName": "n8n course conditions",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wRUt9pmyDNPDUJLvQPqTl-WVS5CPdYJL3TgCIxVHBjo/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 821338836,
+          "mode": "list",
+          "cachedResultName": "update spacific value",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wRUt9pmyDNPDUJLvQPqTl-WVS5CPdYJL3TgCIxVHBjo/edit#gid=821338836"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "product",
+              "lookupValue": "={{ $json.product }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1088,
+        624
+      ],
+      "id": "bd48db02-0462-44a5-a578-bae70962a634",
+      "name": "Get row(s) in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "xe74FHpZ0iNXOXGo",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.5,
+      "position": [
+        464,
+        624
+      ],
+      "id": "c697e24e-bf9d-440c-bcf4-4d005d59753c",
+      "name": "When chat message received",
+      "webhookId": "e546a8d6-ff75-4030-9e23-4d4a32225385"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1wRUt9pmyDNPDUJLvQPqTl-WVS5CPdYJL3TgCIxVHBjo",
+          "mode": "list",
+          "cachedResultName": "n8n course conditions",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wRUt9pmyDNPDUJLvQPqTl-WVS5CPdYJL3TgCIxVHBjo/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 821338836,
+          "mode": "list",
+          "cachedResultName": "update spacific value",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wRUt9pmyDNPDUJLvQPqTl-WVS5CPdYJL3TgCIxVHBjo/edit#gid=821338836"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id": "={{ $json.id }}",
+            "product": "={{ $json.product }}",
+            "stock": "={{ $json.stock }}",
+            "price": "={{ $json.price +1000 }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "product",
+              "displayName": "product",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "stock",
+              "displayName": "stock",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "price",
+              "displayName": "price",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1312,
+        624
+      ],
+      "id": "783d6d19-57da-4c2b-acd3-ef2863aa1df9",
+      "name": "Append or update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "xe74FHpZ0iNXOXGo",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "formTitle": "API Test",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "email",
+              "fieldType": "email"
+            },
+            {
+              "fieldLabel": "password",
+              "fieldType": "password"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.6,
+      "position": [
+        96,
+        -512
+      ],
+      "id": "e76a6358-2a3e-4c6d-86a1-87788bf7a4b3",
+      "name": "On form submission1",
+      "webhookId": "2640d996-7612-4f6e-8a77-66f8f91a5042",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://ecommerce.routemisr.com/api/v1/auth/signin",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "email",
+              "value": "={{ $json.email }}"
+            },
+            {
+              "name": "password",
+              "value": "={{ $json.password }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        320,
+        -512
+      ],
+      "id": "5b91ee62-b58f-4bd8-9ff2-d38882c00c25",
+      "name": "HTTP Request1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 4
+          },
+          "conditions": [
+            {
+              "id": "c3ece501-54cc-4398-ade8-27602447fa1d",
+              "leftValue": "={{ $json.message }}",
+              "rightValue": "=success",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.4,
+      "position": [
+        544,
+        -512
+      ],
+      "id": "eb8a1e25-0563-4c45-885f-de782772cb75",
+      "name": "If1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        768,
+        -512
+      ],
+      "id": "96a7ef83-6901-4e39-bfa0-a71a980e999b",
+      "name": "Edit Fields1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 4
+                },
+                "conditions": [
+                  {
+                    "id": "b8923644-a5e8-4696-9797-0a2cf3935895",
+                    "leftValue": "={{ $json.user.role }}",
+                    "rightValue": "user",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "user"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 4
+                },
+                "conditions": [
+                  {
+                    "id": "ab949139-d9c7-4fc5-80b9-413b36b9c662",
+                    "leftValue": "={{ $json.user.role }}",
+                    "rightValue": "admin",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "admin"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.5,
+      "position": [
+        992,
+        -528
+      ],
+      "id": "ffa24aea-ef24-43d0-854c-d17be523becd",
+      "name": "Switch",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.5,
+      "position": [
+        -128,
+        -832
+      ],
+      "id": "f4bf52c9-5d19-47c8-af3f-1afa474ec8b8",
+      "name": "Telegram Trigger",
+      "webhookId": "b59b9c69-f4aa-478e-b264-07d82392a4ee",
+      "credentials": {
+        "telegramApi": {
+          "id": "ErDCxxomHlr98Y71",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "69c8fafb-54cb-4e0c-8d72-2fe68750375c",
+              "name": "message",
+              "value": "={{ $json.message.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        64,
+        -832
+      ],
+      "id": "f044fdc9-3fe6-441e-8d56-c6816c01a3b3",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "jsCode": "\nconst item = $input.first();\nconst message = String(item.json.message || \"\");\n\nconst match = message.match(/^(.+?)\\s+(\\d+(?:\\.\\d+)?)$/);\n\nreturn [\n  {\n    json: {\n      id: item.json.id,\n      message: message,\n      name: match ? match[1].trim() : message,\n      price: match ? Number(match[2]) : null\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        256,
+        -832
+      ],
+      "id": "e02ff582-7fdc-4192-978f-cdcd7366c1f3",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1wRUt9pmyDNPDUJLvQPqTl-WVS5CPdYJL3TgCIxVHBjo",
+          "mode": "list",
+          "cachedResultName": "n8n course conditions",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wRUt9pmyDNPDUJLvQPqTl-WVS5CPdYJL3TgCIxVHBjo/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wRUt9pmyDNPDUJLvQPqTl-WVS5CPdYJL3TgCIxVHBjo/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Product Name": "={{ $('Code in JavaScript1').item.json.name }}",
+            " Price (EGP)": "={{ Number(Object.entries($('Get row(s) in sheet2').first().json).find(([key]) => key.trim() === 'Price (EGP)')?.[1]) * (1 + Number($('Code in JavaScript1').first().json.price) / 100) }}"
+          },
+          "matchingColumns": [
+            "Product Name"
+          ],
+          "schema": [
+            {
+              "id": "Product Name",
+              "displayName": "Product Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": " Price (EGP)",
+              "displayName": " Price (EGP)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        672,
+        -832
+      ],
+      "id": "6b29aec1-b212-4d84-8c94-9550ebf4fd2e",
+      "name": "Append or update row in sheet1",
+      "alwaysOutputData": false,
+      "executeOnce": false,
+      "retryOnFail": false,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "xe74FHpZ0iNXOXGo",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1wRUt9pmyDNPDUJLvQPqTl-WVS5CPdYJL3TgCIxVHBjo",
+          "mode": "list",
+          "cachedResultName": "n8n course conditions",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wRUt9pmyDNPDUJLvQPqTl-WVS5CPdYJL3TgCIxVHBjo/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wRUt9pmyDNPDUJLvQPqTl-WVS5CPdYJL3TgCIxVHBjo/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Product Name",
+              "lookupValue": "={{ $json.name }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        464,
+        -832
+      ],
+      "id": "b219accc-6e25-4f35-861a-ba758c00abbc",
+      "name": "Get row(s) in sheet2",
+      "executeOnce": false,
+      "retryOnFail": false,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "xe74FHpZ0iNXOXGo",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## First Task:\nIncrease product prices in Google Sheet by a percentage sent via Telegram.\n"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -128,
+        -1024
+      ],
+      "typeVersion": 1,
+      "id": "a293bccd-77c7-444d-893b-40ac6dda603d",
+      "name": "Sticky Note"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Append row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet1": {
+      "main": [
+        []
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet1": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        []
+      ]
+    },
+    "On form submission1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet2": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "72ab4f6c-b90f-498d-a6c0-f9cfbec7c320",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "7a975a3ab901d4607d854c49563401289fd598f7395610eb459f7d44338a25dd"
+  },
+  "nodeGroups": [],
+  "id": "JhmJtFG1eYLX0koP",
+  "tags": []
+}
